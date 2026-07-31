@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Artifacts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0D1017;
+  --ink-2:#141A24;
+  --panel:#1A2130;
+  --gold:#F4C038;
+  --chalk:#F3F1EA;
+  --mute:rgba(243,241,234,.62);
+  --line:rgba(243,241,234,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--chalk);
+  font-family:"Archivo",system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.wrap{max-width:960px;margin:0 auto;padding:0 22px}
+.display{font-family:"Anton",Impact,sans-serif;font-weight:400;text-transform:uppercase;line-height:.9;letter-spacing:.01em}
+.mono{font-family:"Space Mono",ui-monospace,monospace}
+
+header{
+  padding:72px 0 44px;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,var(--ink-2),var(--ink));
+}
+.kicker{
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:14px;
+}
+h1{font-size:clamp(44px,9vw,86px)}
+.sub{color:var(--mute);margin-top:16px;max-width:52ch}
+
+main{padding:44px 0 80px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:18px;
+}
+.card{
+  display:block;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:26px 24px;
+  color:inherit;
+  text-decoration:none;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease;
+}
+.card:hover,.card:focus-visible{
+  transform:translateY(-3px);
+  border-color:var(--gold);
+  background:#1F273A;
+}
+.card:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card .tag{
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);display:block;margin-bottom:12px;
+}
+.card h2{font-size:clamp(24px,4vw,32px)}
+.card p{color:var(--mute);font-size:15px;margin-top:12px}
+.card .path{
+  margin-top:16px;font-size:12px;color:rgba(243,241,234,.45);
+  word-break:break-all;
+}
+
+footer{
+  border-top:1px solid var(--line);
+  padding:28px 0 60px;
+  color:var(--mute);
+  font-size:14px;
+}
+footer a{color:var(--chalk)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="kicker mono">Claude Artifacts · GitHub Pages</div>
+    <h1 class="display">Watch-party primers</h1>
+    <p class="sub">Self-contained, single-page explainers built as Claude artifacts and published here. Each one stands alone — open it and read.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="grid">
+
+      <a class="card" href="./spain-argentina-final-primer/">
+        <span class="tag mono">The Final</span>
+        <h2 class="display">Spain ✕ Argentina</h2>
+        <p>The World Cup final, explained — Spain's one-goal-conceded run against Argentina's seven-for-seven title defense.</p>
+        <div class="path mono">/spain-argentina-final-primer/</div>
+      </a>
+
+      <a class="card" href="./spain-france-primer/">
+        <span class="tag mono">Semi-final</span>
+        <h2 class="display">Spain ✕ France</h2>
+        <p>One win from the final. La Roja's European champions meet a France side with a perfect six-game run.</p>
+        <div class="path mono">/spain-france-primer/</div>
+      </a>
+
+      <a class="card" href="./england-mexico-primer/">
+        <span class="tag mono">Round of 16</span>
+        <h2 class="display">England ✕ Mexico</h2>
+        <p>Three Lions into the Azteca — altitude, a host nation yet to concede, and a 01:00 UK kick-off.</p>
+        <div class="path mono">/england-mexico-primer/</div>
+      </a>
+
+      <a class="card" href="./boston-legacy-primer/">
+        <span class="tag mono">NWSL · Matchday 13</span>
+        <h2 class="display">Boston Legacy ✕ Washington Spirit</h2>
+        <p>Boston's first-ever season at home against a Spirit side that's won seven of its last eight.</p>
+        <div class="path mono">/boston-legacy-primer/</div>
+      </a>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Built with <a href="https://claude.ai/code">Claude</a> · source on
+    <a href="https://github.com/bryanhirsch/claude-artifacts">GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>
