@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Midsummer Night's Dream — Pocket Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700;9..144,900&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#131734;
+    --night-2:#0C0F24;
+    --panel:#1B2043;
+    --panel-2:#222850;
+    --line:rgba(159,176,214,.22);
+    --vellum:#F0E9DA;
+    --moon:#9FB0D6;
+    --moon-dim:#6F7FA6;
+    --flower:#D06E9E;
+    --gilt:#D9A94C;
+    --display:"Fraunces",Georgia,serif;
+    --body:"Newsreader",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    --wrap:44rem;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body.locked{overflow:hidden}
+  body{
+    margin:0;
+    background:var(--night-2);
+    color:var(--vellum);
+    font-family:var(--body);
+    font-size:17.5px;
+    line-height:1.62;
+    font-weight:300;
+    letter-spacing:.002em;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:
+      radial-gradient(60rem 34rem at 78% -12%, rgba(217,169,76,.13), transparent 60%),
+      radial-gradient(48rem 40rem at 8% 4%, rgba(208,110,158,.10), transparent 62%),
+      linear-gradient(180deg,var(--night) 0%, var(--night-2) 42%);
+    pointer-events:none; z-index:0;
+  }
+  .page{position:relative; z-index:1; max-width:var(--wrap); margin:0 auto; padding:0 1.15rem 5rem}
+
+  a{color:var(--moon); text-decoration-color:rgba(159,176,214,.35); text-underline-offset:3px}
+  a:hover{color:var(--flower)}
+  :focus-visible{outline:2px solid var(--gilt); outline-offset:3px; border-radius:3px}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:30;
+    display:flex; align-items:center; gap:.5rem;
+    height:3.1rem;
+    margin:0 -1.15rem 1.5rem; padding:0 1.15rem;
+    background:rgba(12,15,36,.92);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .mark{
+    font-family:var(--mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--moon-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .mark b{color:var(--vellum); font-weight:500}
+  .ver{
+    font-style:normal; color:var(--night-2); background:var(--gilt);
+    padding:.1rem .3rem; border-radius:2px; font-size:.9em; letter-spacing:.08em;
+  }
+  .grow{flex:1 1 auto}
+  .btn{
+    font-family:var(--mono); font-size:.62rem; letter-spacing:.11em; text-transform:uppercase;
+    color:var(--moon); background:transparent; border:1px solid var(--line);
+    border-radius:2px; padding:.5rem .65rem; cursor:pointer; white-space:nowrap;
+    transition:color .18s ease,background .18s ease,border-color .18s ease;
+  }
+  .btn:hover{color:var(--vellum); border-color:var(--moon-dim)}
+  .btn.alarm{color:var(--flower); border-color:rgba(208,110,158,.45)}
+  .btn.alarm:hover{background:var(--flower); color:var(--night-2); border-color:var(--flower)}
+  .btn.menu{color:var(--vellum); border-color:var(--moon-dim)}
+  .btn.menu:hover{background:var(--moon); color:var(--night-2); border-color:var(--moon)}
+
+  /* ---------- drawer ---------- */
+  .scrim{
+    position:fixed; inset:0; z-index:50;
+    background:rgba(6,8,22,.68);
+    opacity:0; visibility:hidden;
+    transition:opacity .26s ease, visibility .26s ease;
+  }
+  .scrim.open{opacity:1; visibility:visible}
+
+  aside.drawer{
+    position:fixed; top:0; right:0; bottom:0; z-index:60;
+    width:min(21.5rem,89vw);
+    display:flex; flex-direction:column;
+    background:linear-gradient(180deg,#1A1F45 0%,#0E1230 100%);
+    border-left:1px solid var(--line);
+    box-shadow:-20px 0 44px rgba(0,0,0,.5);
+    transform:translateX(103%);
+    transition:transform .3s cubic-bezier(.22,.7,.28,1);
+    overscroll-behavior:contain;
+  }
+  aside.drawer.open{transform:translateX(0)}
+  .d-head{
+    flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; gap:.6rem;
+    padding:.95rem 1rem .85rem; border-bottom:1px solid var(--line);
+  }
+  .d-head .ttl{font-family:var(--mono); font-size:.62rem; letter-spacing:.19em; text-transform:uppercase; color:var(--gilt)}
+  .x{
+    background:transparent; border:1px solid var(--line); border-radius:2px; color:var(--moon);
+    width:2.1rem; height:2.1rem; cursor:pointer; font-size:.95rem; line-height:1;
+  }
+  .x:hover{color:var(--vellum); border-color:var(--moon-dim)}
+  .d-body{flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom:1.5rem}
+  .d-foot{flex:0 0 auto; padding:.85rem 1rem; border-top:1px solid var(--line)}
+  .d-foot .btn{width:100%}
+
+  .d-row{display:flex; align-items:stretch; border-bottom:1px solid rgba(159,176,214,.13)}
+  .d-go{
+    flex:1 1 auto; text-align:left; background:transparent; border:0; cursor:pointer;
+    font-family:var(--display); font-weight:500; font-size:1.01rem; letter-spacing:-.005em;
+    color:var(--vellum); padding:.9rem .5rem .9rem 1rem;
+  }
+  .d-go:hover{color:var(--flower)}
+  .d-go.here{color:var(--flower)}
+  .d-go.here::after{content:" ☾"; color:var(--gilt); font-size:.78em}
+  .d-toggle{
+    flex:0 0 auto; width:3.1rem; background:transparent; border:0;
+    border-left:1px solid rgba(159,176,214,.13);
+    color:var(--moon-dim); cursor:pointer; font-size:.85rem;
+  }
+  .d-toggle:hover{color:var(--vellum)}
+  .d-toggle i{display:inline-block; font-style:normal; transition:transform .22s ease}
+  .d-toggle[aria-expanded="true"]{color:var(--flower)}
+  .d-toggle[aria-expanded="true"] i{transform:rotate(90deg)}
+
+  .d-sub{display:none; background:rgba(0,0,0,.2); border-bottom:1px solid rgba(159,176,214,.13); padding:.2rem 0 .5rem}
+  .d-sub.open{display:block}
+  .d-sub button{
+    display:block; width:100%; text-align:left; background:transparent; border:0; cursor:pointer;
+    font-family:var(--body); font-weight:300; font-size:.95rem; color:var(--moon);
+    padding:.52rem 1rem .52rem 2.15rem; position:relative;
+  }
+  .d-sub button::before{
+    content:""; position:absolute; left:1.25rem; top:1.06rem; width:.5rem;
+    border-top:1px solid var(--moon-dim);
+  }
+  .d-sub button:hover{color:var(--vellum)}
+  .d-sub button.here{color:var(--flower)}
+  .d-sub button.here::before{border-color:var(--flower)}
+
+  /* ---------- hero ---------- */
+  header.hero{padding:1.2rem 0 .4rem}
+  .eyebrow{
+    font-family:var(--mono); font-size:.66rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--moon-dim); margin:0 0 1rem;
+  }
+  .eyebrow b{color:var(--gilt); font-weight:500}
+  h1{
+    font-family:var(--display);
+    font-variation-settings:"SOFT" 20,"WONK" 1,"opsz" 120;
+    font-weight:700; font-size:clamp(2.5rem,11vw,4rem); line-height:.95;
+    margin:0 0 .1rem; letter-spacing:-.02em;
+  }
+  h1 .sm{display:block; font-size:.42em; font-weight:300; font-style:italic; letter-spacing:.01em; color:var(--moon); margin-bottom:.35rem}
+  .thesis{font-size:1.12rem; color:var(--vellum); max-width:34rem; margin:1.1rem 0 0}
+  .thesis em{color:var(--flower); font-style:italic}
+
+  /* ---------- sections ---------- */
+  section{padding-top:2.6rem; scroll-margin-top:3.6rem}
+  h2{
+    font-family:var(--display); font-variation-settings:"SOFT" 20,"WONK" 1;
+    font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.015em;
+    margin:0 0 .2rem;
+  }
+  h2 .num{
+    display:block; font-family:var(--mono); font-size:.63rem; font-weight:400;
+    letter-spacing:.2em; text-transform:uppercase; color:var(--gilt); margin-bottom:.5rem;
+  }
+  h3{
+    font-family:var(--display); font-weight:600; font-size:1.14rem;
+    margin:1.9rem 0 .35rem; letter-spacing:-.005em;
+  }
+  p{margin:.7rem 0}
+  .lede{color:var(--moon); font-size:1rem; margin-bottom:.4rem}
+  hr.rule{border:0; border-top:1px solid var(--line); margin:2.4rem 0 0}
+
+  /* ---------- tangle ---------- */
+  .tangle{
+    margin:1.8rem 0 0; padding:1.1rem .9rem 1rem;
+    background:linear-gradient(180deg,var(--panel),rgba(27,32,67,.35));
+    border:1px solid var(--line); border-radius:4px;
+  }
+  .acts{display:flex; gap:.4rem; margin-bottom:.9rem; flex-wrap:wrap}
+  .acts button{
+    flex:1 1 auto; min-width:6.5rem;
+    font-family:var(--mono); font-size:.63rem; letter-spacing:.11em; text-transform:uppercase;
+    color:var(--moon-dim); background:transparent;
+    border:1px solid var(--line); border-radius:2px; padding:.5rem .3rem; cursor:pointer;
+    transition:background .18s ease,color .18s ease,border-color .18s ease;
+  }
+  .acts button:hover{color:var(--vellum); border-color:var(--moon-dim)}
+  .acts button[aria-pressed="true"]{background:var(--flower); border-color:var(--flower); color:var(--night-2)}
+  svg.map{display:block; width:100%; height:auto}
+  .node rect{fill:rgba(240,233,218,.05); stroke:var(--line)}
+  .node .nm{font-family:var(--display); font-weight:600; font-size:19px; fill:var(--vellum)}
+  .node .tag{font-family:var(--mono); font-size:8.5px; letter-spacing:.14em; fill:var(--moon-dim)}
+  .edge{stroke:var(--flower); stroke-width:2; fill:none; opacity:0; transition:opacity .4s ease}
+  .edge.show{opacity:.95}
+  .edge.spell{stroke-dasharray:5 5; stroke:var(--gilt)}
+  .legend{
+    display:flex; gap:1.1rem; flex-wrap:wrap; margin-top:.6rem;
+    font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; color:var(--moon-dim);
+  }
+  .legend span{display:flex; align-items:center; gap:.4rem}
+  .swatch{width:22px; height:0; border-top:2px solid var(--flower)}
+  .swatch.d{border-top:2px dashed var(--gilt)}
+  .caption{
+    margin:.85rem 0 0; padding-top:.8rem; border-top:1px solid var(--line);
+    font-size:.95rem; color:var(--vellum); min-height:4.6rem;
+  }
+  .caption b{color:var(--flower); font-weight:600}
+
+  /* ---------- quote block ---------- */
+  .line{
+    margin:1.1rem 0; padding-left:.95rem; border-left:2px solid var(--flower);
+  }
+  .line .og{
+    font-family:var(--display); font-variation-settings:"WONK" 1;
+    font-style:italic; font-size:1.06rem; color:var(--vellum); display:block; line-height:1.4;
+  }
+  .line .mod{display:block; margin-top:.4rem; color:var(--moon); font-size:.96rem}
+  .line .who{
+    display:block; margin-top:.35rem;
+    font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--moon-dim);
+  }
+
+  /* ---------- fact list ---------- */
+  ul.facts{list-style:none; padding:0; margin:1rem 0 0}
+  ul.facts li{
+    padding:.75rem 0 .75rem 1.9rem; border-top:1px solid var(--line); position:relative;
+  }
+  ul.facts li:last-child{border-bottom:1px solid var(--line)}
+  ul.facts li::before{
+    content:"☾"; position:absolute; left:0; top:.72rem; color:var(--gilt); font-size:.95rem;
+  }
+  ul.facts b{font-weight:600; color:var(--vellum)}
+
+  /* ---------- character cards ---------- */
+  .group{margin-top:1.7rem}
+  .group > h4{
+    font-family:var(--mono); font-size:.64rem; letter-spacing:.19em; text-transform:uppercase;
+    color:var(--gilt); margin:0 0 .1rem; font-weight:500;
+  }
+  .group > .gsub{font-size:.92rem; color:var(--moon-dim); margin:0 0 .8rem}
+  .who-card{
+    padding:.75rem 0; border-top:1px solid var(--line);
+  }
+  .who-card .top{display:flex; align-items:baseline; gap:.55rem; flex-wrap:wrap}
+  .who-card .name{font-family:var(--display); font-weight:600; font-size:1.06rem}
+  .who-card .say{font-family:var(--mono); font-size:.63rem; letter-spacing:.06em; color:var(--flower)}
+  .who-card p{margin:.25rem 0 0; font-size:.97rem; color:var(--moon)}
+  .who-card .spot{
+    display:block; margin-top:.3rem; font-size:.88rem; color:var(--moon-dim);
+  }
+  .who-card .spot b{
+    font-family:var(--mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--gilt); font-weight:500; margin-right:.35rem;
+  }
+
+  /* ---------- running order ---------- */
+  .run{margin-top:1.4rem; border-left:1px solid var(--line); padding-left:1.15rem; position:relative}
+  .acthead{
+    font-family:var(--mono); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--night-2); background:var(--moon); display:inline-block;
+    padding:.22rem .55rem; border-radius:2px; margin:1.9rem 0 .3rem -1.15rem;
+  }
+  .acthead:first-child{margin-top:0}
+  .actwhere{font-family:var(--mono); font-size:.63rem; letter-spacing:.1em; color:var(--moon-dim); margin:.1rem 0 .9rem}
+  .scene{position:relative; padding:.15rem 0 1.15rem}
+  .scene::before{
+    content:""; position:absolute; left:-1.44rem; top:.62rem;
+    width:9px; height:9px; border-radius:50%; background:var(--night-2); border:2px solid var(--flower);
+  }
+  .cue{
+    font-family:var(--mono); font-size:.63rem; letter-spacing:.13em; color:var(--flower);
+    margin-bottom:.15rem;
+  }
+  .cue span{color:var(--moon-dim); letter-spacing:.06em}
+  .scene p{margin:.2rem 0 0; font-size:.99rem}
+  .scene .watch{margin-top:.45rem; font-size:.9rem; color:var(--moon)}
+  .scene .watch b{
+    font-family:var(--mono); font-size:.6rem; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--gilt); font-weight:500; margin-right:.35rem;
+  }
+
+  /* ---------- panic panel ---------- */
+  .panic-box{
+    margin-top:1.4rem; padding:1.1rem 1.15rem;
+    background:linear-gradient(180deg,rgba(208,110,158,.13),rgba(208,110,158,.03));
+    border:1px solid rgba(208,110,158,.38); border-radius:4px;
+  }
+  .panic-box ol{margin:.4rem 0 0; padding-left:1.15rem}
+  .panic-box li{margin:.55rem 0; font-size:.99rem}
+  .panic-box li::marker{color:var(--flower); font-family:var(--mono); font-size:.8rem}
+
+  /* ---------- glossary ---------- */
+  .gloss{display:grid; grid-template-columns:repeat(auto-fill,minmax(14rem,1fr)); gap:0 1.6rem; margin-top:1rem}
+  .gloss div{padding:.5rem 0; border-top:1px solid var(--line); font-size:.95rem}
+  .gloss dt{font-family:var(--mono); font-size:.74rem; color:var(--flower); letter-spacing:.04em}
+  .gloss dd{margin:.1rem 0 0; color:var(--moon)}
+
+  /* ---------- video cards ---------- */
+  .vids{margin-top:1rem}
+  .vid{
+    display:flex; gap:.85rem; align-items:flex-start;
+    padding:.85rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit;
+  }
+  .vid:last-of-type{border-bottom:1px solid var(--line)}
+  .vid .play{
+    flex:0 0 auto; width:2rem; height:2rem; margin-top:.15rem;
+    border:1px solid rgba(208,110,158,.5); border-radius:50%;
+    display:grid; place-items:center; color:var(--flower); font-size:.62rem;
+    transition:background .18s ease,color .18s ease;
+  }
+  .vid:hover .play{background:var(--flower); color:var(--night-2)}
+  .vid .t{font-family:var(--display); font-weight:600; font-size:1.01rem; color:var(--vellum); line-height:1.3}
+  .vid:hover .t{color:var(--flower)}
+  .vid .m{
+    display:block; margin-top:.18rem;
+    font-family:var(--mono); font-size:.61rem; letter-spacing:.1em; text-transform:uppercase; color:var(--moon-dim);
+  }
+  .vid .d{display:block; margin-top:.28rem; font-size:.92rem; color:var(--moon)}
+  .note{font-size:.86rem; color:var(--moon-dim); margin-top:.9rem; font-style:italic}
+
+  footer{
+    margin-top:3.5rem; padding-top:1.6rem; border-top:1px solid var(--line);
+    font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; color:var(--moon-dim); line-height:1.9;
+  }
+  footer em{color:var(--gilt); font-style:normal}
+  .linkish{
+    background:none; border:0; padding:0; cursor:pointer; color:var(--moon);
+    font:inherit; letter-spacing:inherit;
+    text-decoration:underline; text-decoration-color:rgba(159,176,214,.35); text-underline-offset:3px;
+  }
+  .linkish:hover{color:var(--flower)}
+
+  @media (max-width:420px){
+    body{font-size:17px}
+    .page{padding:0 .95rem 4rem}
+    .topbar{margin:0 -.95rem 1.35rem; padding:0 .95rem}
+    .node .nm{font-size:20px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none !important; animation:none !important}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="topbar">
+  <span class="mark"><b>Midsummer</b> · companion <em class="ver">v3</em></span>
+  <span class="grow"></span>
+  <button type="button" class="btn alarm" data-go="panic">Lost?</button>
+  <button type="button" class="btn menu" id="menuBtn" aria-expanded="false" aria-controls="drawer">☰&nbsp; Menu</button>
+</div>
+
+<header class="hero" id="top">
+  <p class="eyebrow">Pocket companion · <b>Read the top half before curtain</b></p>
+  <h1><span class="sm">A Midsummer Night's</span>Dream</h1>
+  <p class="thesis">Four young people run into a forest to escape an arranged marriage. A fairy king's servant hits them with a love potion and gets it <em>badly</em> wrong. Meanwhile a weaver is turned into a donkey and the fairy queen falls in love with him. Everyone wakes up confused and gets married anyway.</p>
+
+  <div class="tangle">
+    <div class="acts" role="group" aria-label="Choose a point in the play">
+      <button data-act="1" aria-pressed="true">Act 1 · Athens</button>
+      <button data-act="3" aria-pressed="false">Act 3 · Chaos</button>
+      <button data-act="5" aria-pressed="false">Act 5 · Sorted</button>
+    </div>
+
+    <svg class="map" viewBox="0 0 400 262" role="img" aria-labelledby="maptitle">
+      <title id="maptitle">Diagram of who loves whom at three points in the play</title>
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#D06E9E"/>
+        </marker>
+        <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#D9A94C"/>
+        </marker>
+      </defs>
+
+      <!-- edges -->
+      <path id="e_HL"  class="edge" d="M150,50 L244,50"   marker-end="url(#ar)"/>
+      <path id="e_LH"  class="edge" d="M250,66 L156,66"   marker-end="url(#ar)"/>
+      <path id="e_HeD" class="edge" d="M150,198 L244,198" marker-end="url(#ar)"/>
+      <path id="e_DHe" class="edge" d="M250,214 L156,214" marker-end="url(#ar)"/>
+      <path id="e_DH"  class="edge" d="M264,186 L141,80"  marker-end="url(#ar)"/>
+      <path id="e_LHe" class="edge spell" d="M264,78 L141,182" marker-end="url(#arg)"/>
+
+      <!-- nodes -->
+      <g class="node">
+        <rect x="26" y="34" width="118" height="42" rx="3"/>
+        <text class="nm" x="85" y="55" text-anchor="middle">Hermia</text>
+        <text class="tag" x="85" y="68" text-anchor="middle">THE SHORT ONE</text>
+      </g>
+      <g class="node">
+        <rect x="256" y="34" width="118" height="42" rx="3"/>
+        <text class="nm" x="315" y="55" text-anchor="middle">Lysander</text>
+        <text class="tag" x="315" y="68" text-anchor="middle">HER CHOICE</text>
+      </g>
+      <g class="node">
+        <rect x="26" y="184" width="118" height="42" rx="3"/>
+        <text class="nm" x="85" y="205" text-anchor="middle">Helena</text>
+        <text class="tag" x="85" y="218" text-anchor="middle">THE TALL ONE</text>
+      </g>
+      <g class="node">
+        <rect x="256" y="184" width="118" height="42" rx="3"/>
+        <text class="nm" x="315" y="205" text-anchor="middle">Demetrius</text>
+        <text class="tag" x="315" y="218" text-anchor="middle">DAD'S CHOICE</text>
+      </g>
+    </svg>
+
+    <div class="legend">
+      <span><i class="swatch"></i> their own heart</span>
+      <span><i class="swatch d"></i> the flower's doing</span>
+    </div>
+    <p class="caption" id="cap"></p>
+  </div>
+</header>
+
+<hr class="rule">
+
+<!-- ============ PRIMER ============ -->
+<section id="primer">
+  <h2><span class="num">The primer · part one</span>What actually happens</h2>
+  <p class="lede">About four minutes to read. This is the whole play, no Shakespeare required.</p>
+
+  <p>Athens. Duke <b>Theseus</b> is about to marry <b>Hippolyta</b>, and a furious old man named <b>Egeus</b> barges in with a complaint: his daughter <b>Hermia</b> refuses to marry the man he picked, <b>Demetrius</b>. She wants <b>Lysander</b>. Under Athenian law, the Duke tells her, she obeys her father, enters a convent, or dies. He gives her four days to decide.</p>
+
+  <p>Hermia and Lysander decide to run. They tell Hermia's best friend <b>Helena</b> — who is hopelessly, humiliatingly in love with Demetrius — and Helena promptly tells Demetrius, hoping for a scrap of gratitude. So all four end up in the woods outside the city on the same night: two eloping, one hunting them, one chasing him.</p>
+
+  <p>The woods belong to the fairies, and the fairies are having a domestic. <b>Oberon</b> and <b>Titania</b>, king and queen, are fighting over custody of a boy, and their quarrel has thrown the seasons out of joint. Oberon sends his servant <b>Puck</b> for a magic flower whose juice makes a sleeper fall in love with the first living thing they see on waking. He plans to dose Titania and humiliate her. Seeing Helena get abused by Demetrius, he also tells Puck to dose "the Athenian man" so Demetrius will love her back.</p>
+
+  <p>Puck doses the wrong Athenian. Lysander wakes, sees Helena, and drops Hermia instantly. Oberon tries to fix it by dosing Demetrius himself — who also wakes to Helena. Now both men adore the woman neither wanted an hour ago, Helena is certain all three friends are running a cruel prank on her, and she and Hermia, friends since childhood, tear each other apart over it. The men go off to fight a duel.</p>
+
+  <p>Elsewhere in the same wood, six Athenian tradesmen — the "<b>mechanicals</b>" — are rehearsing a terrible play to perform at the Duke's wedding. Puck, for fun, gives their leading man <b>Bottom</b> the head of a donkey. His friends flee screaming. Bottom, oblivious, sings to keep his spirits up — and wakes Titania, who is besotted on sight and spends the night pampering a confused weaver with a donkey's head while her fairies feed him.</p>
+
+  <p>Having got what he wanted from Titania, Oberon relents. Puck fogs the wood, exhausts the duelling men, and lays all four lovers down in one clearing. The spells come off Titania and Lysander. At dawn the hunting party finds the four asleep in the grass; Demetrius announces he loves Helena now; Theseus overrules Egeus, and all three couples marry that day. The mechanicals perform their play, which is gloriously, catastrophically bad, and the court heckles them throughout. The fairies bless the house. Puck steps forward and tells the audience that if they didn't like any of it, they can simply decide they were asleep.</p>
+</section>
+
+<hr class="rule">
+
+<section id="famous">
+  <h2><span class="num">The primer · part two</span>Why this one, why forever</h2>
+  <p class="lede">Written around 1595, and never really out of season since.</p>
+
+  <ul class="facts">
+    <li><b>He made it up.</b> Shakespeare almost always borrowed his plots — from histories, Italian novellas, older plays. <i>Midsummer</i> is one of the very few where the main story appears to be his own invention. He salvaged pieces (Theseus and Hippolyta from Chaucer, the Pyramus and Thisbe story from Ovid, a man-turned-donkey from a Roman novel) but the machine he builds out of them is original.</li>
+    <li><b>It is probably a wedding present.</b> Scholars have long suspected it was written for an aristocratic wedding — the whole play builds toward three marriages and ends with fairies blessing the bedchambers. Which is part of why it works so well as a date.</li>
+    <li><b>The Wedding March is from this play.</b> Mendelssohn wrote an overture for it at seventeen, then a full score in 1842. The march everyone walks out of a wedding to was written for the moment these three couples marry in Act 5. Your wife will enjoy that one.</li>
+    <li><b>Puck is older than Shakespeare.</b> Robin Goodfellow was an existing figure of English folklore — a household spirit, sometimes a devil, by the 1590s a prankster. Shakespeare gave him the personality that stuck, and every mischievous sprite since is downstream of this.</li>
+    <li><b>It is a play about how ridiculous plays are.</b> The mechanicals' <i>Pyramus and Thisbe</i> is theatre's first great parody of bad theatre — actors who explain the plot before performing it, a man playing a wall, another playing moonlight, a lion who reassures the ladies he isn't real. It's still funny four centuries later, which is a strange thing for a joke to survive.</li>
+    <li><b>Directors love it because it can be anything.</b> Fairies as Victorian children, as punks, as circus acrobats. Peter Brook's 1970 staging put it in a white box with trapezes and is still argued about as the most influential Shakespeare production of the last century. Nobody stages this play the same way twice.</li>
+    <li><b>It was built for a night like tonight.</b> The play is set outdoors, at night, in a wood, in midsummer — and it keeps talking about the moon. Performed in a park at dusk, half the scenery is real. This is not a play that's been moved outside; it's a play finally in the right room.</li>
+  </ul>
+</section>
+
+<hr class="rule">
+
+<section id="talk">
+  <h2><span class="num">The primer · part three</span>Things worth noticing</h2>
+  <p class="lede">Structure to hang onto, plus five things you can say afterwards that aren't "that was fun."</p>
+
+  <h3 id="g-worlds">Three worlds, one wood</h3>
+  <p>The play runs on three groups that don't belong to each other: <b>the court</b> (Athens, daylight, law, order), <b>the fairies</b> (the wood, night, appetite, no rules), and <b>the workmen</b> (rehearsing, hopeless, entirely sincere). The whole play is those three colliding in the dark and then untangling by morning. If you lose the thread, just ask which group you're watching — the answer is usually obvious from the costumes.</p>
+
+  <h3 id="g-language">Athens is rigid, the wood is not</h3>
+  <p>Watch how the language changes. In Athens people speak in tight rhyming couplets and formal verse; in the wood the verse loosens, the fairies sing, and the workmen speak flat prose. You don't have to catch the words to hear it happening.</p>
+
+  <h3 id="g-dark">There is a dark seam under the comedy</h3>
+  <p>The play opens with a father asking the state to execute his daughter for choosing her own husband. Theseus won Hippolyta in a war before he wooed her, and says so. Oberon drugs his wife and arranges for her to be sexually humiliated in order to win an argument, and she never learns what he did. The comedy is genuinely funny and this is also all true; good productions let you feel both. That tension is most of what there is to talk about at dinner.</p>
+
+  <h3 id="g-five">Five things to say afterwards</h3>
+  <ul class="facts">
+    <li><b>Demetrius is never cured.</b> Lysander's spell gets removed; Titania's gets removed; Bottom's gets removed. Demetrius is left enchanted, on purpose, and marries Helena that way. The tidy happy ending has one chemical asterisk on it, and Shakespeare puts it there deliberately.</li>
+    <li><b>Bottom is the only human who actually meets the fairies</b> — face to face, for a whole night — and he's the one person incapable of describing it. He wakes up and gets his own senses tangled trying. The play's most profound experience happens to its silliest character.</li>
+    <li><b>The workmen are performing a bad version of <i>Romeo and Juliet</i>.</b> Two lovers, kept apart by their families, who both die by their own hands over a misunderstanding. Shakespeare wrote <i>Romeo and Juliet</i> around the same time as this. He is mocking his own material, in public, on purpose.</li>
+    <li><b>Titania blames the weather on her marriage.</b> She has a long speech in Act 2 about ruined harvests, drowned fields and confused seasons — all because she and Oberon are fighting. England had genuinely disastrous wet summers in the mid-1590s, and the first audiences would have heard their own miserable year described from the stage.</li>
+    <li><b>Puck's last speech puts you in the play.</b> He tells the audience that if the show offended them, they should think of it as a dream they've just had. It's a joke, and it's also the play quietly arguing that watching a play and dreaming are the same activity.</li>
+  </ul>
+</section>
+
+<hr class="rule">
+
+<section id="lines">
+  <h2><span class="num">The primer · part four</span>Lines you'll hear, in plain English</h2>
+  <p class="lede">You already know two or three of these. You just didn't know they were from here.</p>
+
+  <div class="line">
+    <span class="og">The course of true love never did run smooth.</span>
+    <span class="mod">Real love is never easy. This is the origin of the phrase.</span>
+    <span class="who">Lysander · Act 1, Scene 1</span>
+  </div>
+
+  <div class="line">
+    <span class="og">Love looks not with the eyes, but with the mind, and therefore is winged Cupid painted blind.</span>
+    <span class="mod">Love isn't about what you actually see — it's what your imagination does to what you see. That's why Cupid is drawn blindfolded. This is the thesis of the entire play, stated in Act 1 before any magic happens.</span>
+    <span class="who">Helena · Act 1, Scene 1</span>
+  </div>
+
+  <div class="line">
+    <span class="og">Ill met by moonlight, proud Titania.</span>
+    <span class="mod">"Well, this is an unwelcome run-in." The first words Oberon says to his wife. Ice cold.</span>
+    <span class="who">Oberon · Act 2, Scene 1</span>
+  </div>
+
+  <div class="line">
+    <span class="og">I know a bank where the wild thyme blows.</span>
+    <span class="mod">"I know a spot in the woods." What follows is one of the most famous lyric passages Shakespeare ever wrote — he spends eight lines describing a flowerbed, purely because it's beautiful. Just let it wash over you.</span>
+    <span class="who">Oberon · Act 2, Scene 1</span>
+  </div>
+
+  <div class="line">
+    <span class="og">Bless thee, Bottom, bless thee! Thou art translated.</span>
+    <span class="mod">"God help you — you've been transformed." <i>Translated</i> meant physically changed, not converted into another language.</span>
+    <span class="who">Quince · Act 3, Scene 1</span>
+  </div>
+
+  <div class="line">
+    <span class="og">Lord, what fools these mortals be!</span>
+    <span class="mod">"God, humans are idiots." Puck, delighted, watching the chaos he caused. The play's most quoted line.</span>
+    <span class="who">Puck · Act 3, Scene 2</span>
+  </div>
+
+  <div class="line">
+    <span class="og">And though she be but little, she is fierce.</span>
+    <span class="mod">"She may be small, but she's dangerous." Helena warning the men about Hermia mid-argument — it's an insult about her height and a genuine warning at the same time.</span>
+    <span class="who">Helena · Act 3, Scene 2</span>
+  </div>
+
+  <div class="line">
+    <span class="og">My Oberon, what visions have I seen! Methought I was enamoured of an ass.</span>
+    <span class="mod">"I've had the strangest dreams — I think I was in love with a donkey." She was. Oberon doesn't correct her.</span>
+    <span class="who">Titania · Act 4, Scene 1</span>
+  </div>
+
+  <div class="line">
+    <span class="og">The lunatic, the lover, and the poet are of imagination all compact.</span>
+    <span class="mod">"Madmen, people in love, and poets are all made of the same stuff." Theseus dismissing the lovers' story — the audience knows it actually happened, which is the joke.</span>
+    <span class="who">Theseus · Act 5, Scene 1</span>
+  </div>
+
+  <div class="line">
+    <span class="og">If we shadows have offended, think but this, and all is mended: that you have but slumbered here.</span>
+    <span class="mod">"If we actors upset you, just tell yourself you dozed off and dreamed us." The last speech of the play, spoken straight to you.</span>
+    <span class="who">Puck · Act 5, Scene 1</span>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============ CHEAT SHEET ============ -->
+<section id="cast">
+  <h2><span class="num">Cheat sheet · who's who</span>Sixteen people, four groups</h2>
+  <p class="lede">Learn the four lovers and you're fine. Everyone else announces themselves.</p>
+
+  <div class="group" id="c-lovers">
+    <h4>The lovers</h4>
+    <p class="gsub">The engine of the plot. Two H names, two men. Hermia is <b>happy</b> (loved back); Helena is <b>hopeless</b> (not). Shakespeare wrote in a height difference to help you: Helena is tall, Hermia is short, and they insult each other about it in Act 3.</p>
+
+    <div class="who-card">
+      <div class="top"><span class="name">Hermia</span><span class="say">HER-mee-uh</span></div>
+      <p>Defies her father to marry Lysander. Small, furious, does not back down from anyone.</p>
+      <span class="spot"><b>Spot her</b> she's the shorter woman, and she's the one being threatened in the opening scene.</span>
+    </div>
+
+    <div class="who-card">
+      <div class="top"><span class="name">Lysander</span><span class="say">ly-SAN-der</span></div>
+      <p>Hermia's choice. Sweet and sincere until Act 2, when the potion turns him into a stranger.</p>
+      <span class="spot"><b>Spot him</b> he's the one holding Hermia's hand at the start.</span>
+    </div>
+
+    <div class="who-card">
+      <div class="top"><span class="name">Helena</span><span class="say">HEL-uh-nuh</span></div>
+      <p>In love with Demetrius, who despises her, and she keeps chasing anyway. Gets the play's best speeches about how humiliating love is. By Act 3 she's convinced everyone is mocking her.</p>
+      <span class="spot"><b>Spot her</b> the taller woman, usually alone, usually pursuing someone who's walking away.</span>
+    </div>
+
+    <div class="who-card">
+      <div class="top"><span class="name">Demetrius</span><span class="say">duh-MEE-tree-us</span></div>
+      <p>Hermia's father's pick. Cruel to Helena, obsessed with Hermia, and the only character who's still under the spell when the curtain falls.</p>
+      <span class="spot"><b>Spot him</b> he's the one Egeus is standing next to in scene one, looking pleased.</span>
+    </div>
+  </div>
+
+  <div class="group" id="c-court">
+    <h4>The court</h4>
+    <p class="gsub">Athens. They open the play, vanish for three acts, and come back to watch the terrible play at the end.</p>
+
+    <div class="who-card">
+      <div class="top"><span class="name">Theseus</span><span class="say">THEE-see-us</span></div>
+      <p>Duke of Athens. Reasonable, a bit pompous, upholds the harsh law in Act 1 and then quietly overrules it in Act 4.</p>
+    </div>
+    <div class="who-card">
+      <div class="top"><span class="name">Hippolyta</span><span class="say">hi-POL-i-tuh</span></div>
+      <p>Queen of the Amazons, about to marry Theseus — who defeated her in battle first. Few lines, but watch her face; directors do a lot with how willing she looks.</p>
+    </div>
+    <div class="who-card">
+      <div class="top"><span class="name">Egeus</span><span class="say">ee-JEE-us</span></div>
+      <p>Hermia's father. Would rather see his daughter dead than disobedient. The play's inciting problem, in one angry man.</p>
+    </div>
+    <div class="who-card">
+      <div class="top"><span class="name">Philostrate</span><span class="say">FIL-oh-strate</span></div>
+      <p>The Duke's master of revels — the guy who books the entertainment. Minor, often cut or merged with another part.</p>
+    </div>
+  </div>
+
+  <div class="group" id="c-fairies">
+    <h4>The fairies</h4>
+    <p class="gsub">They run the wood. Oberon and Titania are frequently played by the same actors as Theseus and Hippolyta — if the Duke and the fairy king look identical, that's a deliberate directorial choice, not your eyes.</p>
+
+    <div class="who-card">
+      <div class="top"><span class="name">Oberon</span><span class="say">OH-ber-on</span></div>
+      <p>Fairy king. Wants a boy Titania is raising; drugs her to get him. Also, inconsistently, decides to help Helena. Not a villain, not remotely a hero.</p>
+    </div>
+    <div class="who-card">
+      <div class="top"><span class="name">Titania</span><span class="say">ti-TAH-nee-uh</span></div>
+      <p>Fairy queen. Gets the play's most beautiful speech (the ruined seasons, Act 2) and its most undignified plot (a night with a donkey).</p>
+    </div>
+    <div class="who-card">
+      <div class="top"><span class="name">Puck</span><span class="say">also: Robin Goodfellow</span></div>
+      <p>Oberon's servant and the closest thing to a narrator. Causes every complication, apologises for none of them, and gets the last word of the play. If someone is enjoying themselves far too much, it's Puck.</p>
+    </div>
+    <div class="who-card">
+      <div class="top"><span class="name">Peaseblossom, Cobweb, Moth, Mustardseed</span></div>
+      <p>Titania's attendants, assigned to wait on Bottom. Names are the whole joke. You don't need to tell them apart.</p>
+    </div>
+  </div>
+
+  <div class="group" id="c-mech">
+    <h4>The mechanicals</h4>
+    <p class="gsub">Six working men rehearsing a play for the Duke's wedding. "Mechanical" just meant manual labourer. These are the reliable laughs — and if you only follow one storyline tonight, follow this one.</p>
+
+    <div class="who-card">
+      <div class="top"><span class="name">Nick Bottom</span><span class="say">a weaver</span></div>
+      <p>Enormous ego, zero self-awareness, wants to play every role in the play including the lion and the heroine. Gets the donkey's head. Somehow the warmest character in the show.</p>
+      <span class="spot"><b>Spot him</b> loudest man on stage, always.</span>
+    </div>
+    <div class="who-card">
+      <div class="top"><span class="name">Peter Quince</span><span class="say">a carpenter</span></div>
+      <p>Writer and director of the disaster. Permanently exhausted by Bottom.</p>
+    </div>
+    <div class="who-card">
+      <div class="top"><span class="name">Francis Flute</span><span class="say">a bellows-mender</span></div>
+      <p>Made to play the heroine Thisbe and hates it. His death scene in Act 5 is often played straight and can genuinely land.</p>
+    </div>
+    <div class="who-card">
+      <div class="top"><span class="name">Snug, Snout, Starveling</span><span class="say">joiner, tinker, tailor</span></div>
+      <p>Cast as the Lion, the Wall, and Moonshine. Yes — actual actors playing a wall and the moon. That's the Act 5 payoff.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="order">
+  <h2><span class="num">Cheat sheet · running order</span>Scene by scene</h2>
+  <p class="lede">Skim before it starts. Glance at it in the interval. Don't read it in the dark during the show — you'll miss the good bits.</p>
+
+  <div class="run">
+    <div class="acthead" id="a1">Act 1</div>
+    <p class="actwhere">Athens · daytime · everything formal</p>
+
+    <div class="scene">
+      <div class="cue">1.1 <span>— the palace</span></div>
+      <p>Theseus and Hippolyta count down to their wedding. Egeus storms in demanding his daughter Hermia marry Demetrius; Theseus tells her it's obey, convent, or death, and gives her four days. Left alone, Hermia and Lysander plan to elope through the wood. Helena arrives, they tell her the plan, and she immediately decides to tell Demetrius.</p>
+      <p class="watch"><b>Watch for</b> "The course of true love never did run smooth," and Helena's speech about love being blind. Everything the play is about is stated here before any magic starts.</p>
+    </div>
+
+    <div class="scene">
+      <div class="cue">1.2 <span>— Quince's house</span></div>
+      <p>Six tradesmen cast their play. Bottom lobbies to play every part. They agree to rehearse secretly in the wood tomorrow night.</p>
+      <p class="watch"><b>Watch for</b> pure comedy, no plot. Just enjoy it.</p>
+    </div>
+
+    <div class="acthead" id="a2">Act 2</div>
+    <p class="actwhere">The wood · night · the rules stop applying</p>
+
+    <div class="scene">
+      <div class="cue">2.1 <span>— the wood</span></div>
+      <p>Puck introduces himself as a troublemaker. Oberon and Titania have a blazing row over the boy she's raising; she describes how their fight has wrecked the weather and the harvest. Oberon sends Puck for the love flower. Demetrius crashes through hunting the elopers, with Helena trailing him and taking abuse. Oberon, watching, tells Puck to use the flower on "the Athenian man" so Helena gets loved back.</p>
+      <p class="watch"><b>Watch for</b> "Ill met by moonlight" and "I know a bank where the wild thyme blows." Also note that Puck is given a description, not a name — that's the mistake, right there.</p>
+    </div>
+
+    <div class="scene">
+      <div class="cue">2.2 <span>— deeper in</span></div>
+      <p>Oberon doses the sleeping Titania. Hermia and Lysander, lost and tired, lie down separately at Hermia's insistence. Puck finds Lysander, assumes he's the right Athenian, and doses him. Helena wanders past, wakes him, and he abandons Hermia on the spot. Helena flees, sure she's being mocked. Hermia wakes alone from a nightmare about a snake.</p>
+      <p class="watch"><b>Watch for</b> the exact moment Lysander opens his eyes. That's the hinge of the play.</p>
+    </div>
+
+    <div class="acthead" id="a3">Act 3</div>
+    <p class="actwhere">The wood · deep night · peak chaos</p>
+
+    <div class="scene">
+      <div class="cue">3.1 <span>— the rehearsal</span></div>
+      <p>The workmen fret that a real lion and a real killing will frighten the ladies, and try to work out how to stage moonlight and a wall. Puck slips in and gives Bottom a donkey's head; the others bolt in terror. Bottom sings to prove he isn't scared, and wakes Titania — who falls in love with him instantly and hands him over to her fairies.</p>
+      <p class="watch"><b>Watch for</b> "Thou art translated." This scene is usually the biggest laugh of the night.</p>
+    </div>
+
+    <div class="scene">
+      <div class="cue">3.2 <span>— the long one</span></div>
+      <p>Puck reports back gleefully. Oberon spots the error and doses Demetrius himself — so now both men are chasing Helena, who is certain it's an organised prank. Hermia arrives and the two women, friends since childhood, destroy each other. The men storm off to duel. Oberon orders a clean-up: Puck fogs the wood, mimics each man's voice until they exhaust themselves, and lays all four down in one clearing. He lifts the spell from Lysander only.</p>
+      <p class="watch"><b>Watch for</b> "Lord, what fools these mortals be" and "though she be but little, she is fierce." This is the longest scene in the play and the funniest, but keep an eye on Helena — the humiliation is real underneath the farce.</p>
+    </div>
+
+    <div class="acthead" id="a4">Act 4</div>
+    <p class="actwhere">The wood at dawn, then Athens · the untangling</p>
+
+    <div class="scene">
+      <div class="cue">4.1 <span>— morning</span></div>
+      <p>Titania dotes on Bottom until they both sleep. Oberon, having got the boy, releases her; she wakes appalled and they reconcile. Puck removes the donkey's head. The royal hunting party stumbles on the four lovers asleep in the grass. Demetrius announces he loves Helena now. Theseus overrules Egeus: three weddings, today. Everyone leaves. Bottom wakes alone and tries to describe what happened to him, mangling every sense in the attempt.</p>
+      <p class="watch"><b>Watch for</b> Bottom's speech about his dream. It's played for laughs and it's also the most moving thing in the play.</p>
+    </div>
+
+    <div class="scene">
+      <div class="cue">4.2 <span>— Quince's house</span></div>
+      <p>The workmen mourn Bottom, and their lost fee. Bottom bursts in, refuses to explain anything, and tells them to get their costumes on.</p>
+      <p class="watch"><b>Watch for</b> nothing plot-critical. Short and warm.</p>
+    </div>
+
+    <div class="acthead" id="a5">Act 5</div>
+    <p class="actwhere">Athens · the palace · the payoff</p>
+
+    <div class="scene">
+      <div class="cue">5.1 <span>— the wedding entertainment</span></div>
+      <p>Theseus dismisses the lovers' story as imagination. The court then watches <i>Pyramus and Thisbe</i>: a man plays a wall, another plays moonlight, the lion apologises in advance for being a lion, and two lovers die at length over a misunderstanding. The court heckles throughout. Then a dance, then bed. The fairies arrive to bless the house, and Puck ends the play by asking the audience to treat it as a dream.</p>
+      <p class="watch"><b>Watch for</b> the whole act. It's twenty minutes of sustained comedy and the reason this play gets programmed every summer. Also: Flute's death scene as Thisbe is sometimes played dead straight, and when it works the laughter stops cold.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="panic">
+  <h2><span class="num">Cheat sheet · emergency</span>If you lose the thread</h2>
+  <div class="panic-box">
+    <ol>
+      <li><b>You are not supposed to catch every word.</b> Nobody does, including people who've seen it ten times. Shakespeare wrote for a noisy outdoor crowd; the plot is carried by who's chasing whom across the stage.</li>
+      <li><b>Ask which of the three groups you're watching</b> — court, fairies, or workmen. That alone tells you roughly what's going on.</li>
+      <li><b>If two men are shouting over one woman, it's Act 3</b>, they're drugged, and Helena thinks it's a joke at her expense.</li>
+      <li><b>If someone has a donkey's head, that's Bottom</b>, and the woman adoring him is the fairy queen under a spell.</li>
+      <li><b>Nothing bad happens.</b> It's a comedy. Everyone survives, everyone marries, and the only deaths are in the terrible play-within-the-play. Relax and watch the faces.</li>
+    </ol>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="gloss">
+  <h2><span class="num">Cheat sheet · word list</span>The words that trip people up</h2>
+  <p class="lede">Twenty words do most of the damage. Learn these and the fog thins considerably.</p>
+  <dl class="gloss">
+    <div><dt>anon</dt><dd>in a moment / coming right up</dd></div>
+    <div><dt>ere</dt><dd>before</dd></div>
+    <div><dt>wherefore</dt><dd>why (not "where")</dd></div>
+    <div><dt>hie</dt><dd>hurry</dd></div>
+    <div><dt>marry</dt><dd>well! / indeed (a filler word)</dd></div>
+    <div><dt>an / and</dt><dd>if</dd></div>
+    <div><dt>but</dt><dd>only</dd></div>
+    <div><dt>fair</dt><dd>beautiful</dd></div>
+    <div><dt>gentle</dt><dd>noble, well-born</dd></div>
+    <div><dt>sirrah</dt><dd>"buddy" — said to an inferior</dd></div>
+    <div><dt>morrow</dt><dd>morning</dd></div>
+    <div><dt>methinks</dt><dd>I think</dd></div>
+    <div><dt>would</dt><dd>wish (as in "I would he were gone")</dd></div>
+    <div><dt>dote</dt><dd>adore obsessively, past all sense</dd></div>
+    <div><dt>translated</dt><dd>transformed, changed shape</dd></div>
+    <div><dt>changeling</dt><dd>a child swapped or stolen by fairies</dd></div>
+    <div><dt>rude</dt><dd>rough, unskilled (not impolite)</dd></div>
+    <div><dt>mechanicals</dt><dd>manual workers</dd></div>
+    <div><dt>nuptial</dt><dd>wedding</dd></div>
+    <div><dt>wood</dt><dd>forest — but also "mad," which is a pun Shakespeare uses on purpose in Act 2</dd></div>
+    <div><dt>fond</dt><dd>foolish, as much as affectionate</dd></div>
+    <div><dt>shadows</dt><dd>actors (and also spirits) — key to Puck's last speech</dd></div>
+  </dl>
+</section>
+
+<hr class="rule">
+
+<section id="clips">
+  <h2><span class="num">Before you go</span>Ten minutes of clips</h2>
+  <p class="lede">Watch the first two and you'll recognise the two biggest moments live.</p>
+
+  <div class="vids">
+    <a class="vid" href="https://www.youtube.com/watch?v=yGgsJd4_r4k" target="_blank" rel="noopener">
+      <span class="play">▶</span>
+      <span>
+        <span class="t">"What angel wakes me?" — Titania falls for Bottom</span>
+        <span class="m">Shakespeare's Globe · Act 3, Scene 1</span>
+        <span class="d">The donkey's head, live, with a real audience roaring. The single best preview of what tonight's biggest laugh will feel like.</span>
+      </span>
+    </a>
+
+    <a class="vid" href="https://www.youtube.com/watch?v=TUvSVpsrR00" target="_blank" rel="noopener">
+      <span class="play">▶</span>
+      <span>
+        <span class="t">"If we shadows have offended" — Puck's epilogue</span>
+        <span class="m">Shakespeare's Globe · Act 5, Scene 1</span>
+        <span class="d">The last speech of the play, spoken straight out to the crowd. Hear it once beforehand and it will land properly tonight.</span>
+      </span>
+    </a>
+
+    <a class="vid" href="https://www.youtube.com/watch?v=p6IvB-2jYtY" target="_blank" rel="noopener">
+      <span class="play">▶</span>
+      <span>
+        <span class="t">Titania falls in love — the 1935 Hollywood version</span>
+        <span class="m">Max Reinhardt's film, with James Cagney as Bottom</span>
+        <span class="d">Same scene, ninety years earlier, in full silver-screen fairy spectacle. Useful for seeing how differently one scene can be staged.</span>
+      </span>
+    </a>
+
+    <a class="vid" href="https://www.youtube.com/watch?v=7dgOcvrxxac" target="_blank" rel="noopener">
+      <span class="play">▶</span>
+      <span>
+        <span class="t">Puck's epilogue — 1935, Mickey Rooney</span>
+        <span class="m">Max Reinhardt's film</span>
+        <span class="d">A fourteen-year-old Mickey Rooney's Puck. Compare it with the Globe version above; it's the same words and a completely different creature.</span>
+      </span>
+    </a>
+
+    <a class="vid" href="https://www.youtube.com/watch?v=7qti_DFVp1I" target="_blank" rel="noopener">
+      <span class="play">▶</span>
+      <span>
+        <span class="t">Globe Theatre production overview</span>
+        <span class="m">Shakespeare's Globe · introduction</span>
+        <span class="d">Two minutes on how the company approaches the play. Good background if you want context rather than plot.</span>
+      </span>
+    </a>
+
+    <a class="vid" href="https://www.youtube.com/watch?v=dvs0LoIZH0E" target="_blank" rel="noopener">
+      <span class="play">▶</span>
+      <span>
+        <span class="t">The full play, free</span>
+        <span class="m">2022 stage production · complete</span>
+        <span class="d">For afterwards, or for a rainy Sunday. Far too long for tonight.</span>
+      </span>
+    </a>
+  </div>
+  <p class="note">Links go to YouTube and were live when this was put together — if one has moved, searching the clip title usually finds it.</p>
+</section>
+
+<footer>
+  A Midsummer Night's Dream · <em>William Shakespeare, c. 1595</em><br>
+  Pocket companion · primer above, cheat sheet below · <button type="button" class="linkish" data-go="panic">jump to the emergency panel</button><br>
+  Build <em>v3</em> · 28 July 2026 · smooth in-page nav + side panel<br>
+  <em>Enjoy the play. And though it be but little, it is fierce.</em>
+</footer>
+
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<aside class="drawer" id="drawer" aria-label="Contents" aria-hidden="true">
+  <div class="d-head">
+    <span class="ttl">Contents <em class="ver">v3 · 28 Jul</em></span>
+    <button type="button" class="x" id="closeBtn" aria-label="Close menu">✕</button>
+  </div>
+
+  <div class="d-body">
+    <div class="d-row"><button type="button" class="d-go" data-go="top">Top of page</button></div>
+
+    <div class="d-row"><button type="button" class="d-go" data-go="primer">What actually happens</button></div>
+
+    <div class="d-row"><button type="button" class="d-go" data-go="famous">Why it's loved</button></div>
+
+    <div class="d-row">
+      <button type="button" class="d-go" data-go="talk">Things worth noticing</button>
+      <button type="button" class="d-toggle" aria-expanded="false" aria-controls="sub-talk" aria-label="Show sections inside Things worth noticing"><i>›</i></button>
+    </div>
+    <div class="d-sub" id="sub-talk">
+      <button type="button" data-go="g-worlds">Three worlds, one wood</button>
+      <button type="button" data-go="g-language">Athens is rigid, the wood is not</button>
+      <button type="button" data-go="g-dark">The dark seam under the comedy</button>
+      <button type="button" data-go="g-five">Five things to say afterwards</button>
+    </div>
+
+    <div class="d-row"><button type="button" class="d-go" data-go="lines">Key lines, translated</button></div>
+
+    <div class="d-row">
+      <button type="button" class="d-go" data-go="cast">Who's who</button>
+      <button type="button" class="d-toggle" aria-expanded="false" aria-controls="sub-cast" aria-label="Show character groups"><i>›</i></button>
+    </div>
+    <div class="d-sub" id="sub-cast">
+      <button type="button" data-go="c-lovers">The four lovers</button>
+      <button type="button" data-go="c-court">The court</button>
+      <button type="button" data-go="c-fairies">The fairies</button>
+      <button type="button" data-go="c-mech">The mechanicals</button>
+    </div>
+
+    <div class="d-row">
+      <button type="button" class="d-go" data-go="order">Scene by scene</button>
+      <button type="button" class="d-toggle" aria-expanded="false" aria-controls="sub-order" aria-label="Show acts"><i>›</i></button>
+    </div>
+    <div class="d-sub" id="sub-order">
+      <button type="button" data-go="a1">Act 1 — Athens, the setup</button>
+      <button type="button" data-go="a2">Act 2 — into the wood</button>
+      <button type="button" data-go="a3">Act 3 — peak chaos</button>
+      <button type="button" data-go="a4">Act 4 — morning, untangling</button>
+      <button type="button" data-go="a5">Act 5 — the terrible play</button>
+    </div>
+
+    <div class="d-row"><button type="button" class="d-go" data-go="gloss">Word list</button></div>
+
+    <div class="d-row"><button type="button" class="d-go" data-go="clips">Clips to watch first</button></div>
+  </div>
+
+  <div class="d-foot">
+    <button type="button" class="btn alarm" data-go="panic">If you lose the thread</button>
+  </div>
+</aside>
+
+<script>
+(function(){
+  var edges = {
+    HL:  document.getElementById('e_HL'),
+    LH:  document.getElementById('e_LH'),
+    HeD: document.getElementById('e_HeD'),
+    DHe: document.getElementById('e_DHe'),
+    DH:  document.getElementById('e_DH'),
+    LHe: document.getElementById('e_LHe')
+  };
+
+  // key: [edge, isSpell]
+  var states = {
+    '1': {
+      on: [['HL',0],['LH',0],['HeD',0],['DH',0]],
+      cap: '<b>Before the wood.</b> Hermia and Lysander love each other. Helena loves Demetrius. Demetrius wants Hermia — and Hermia\u2019s father has the law on his side. No magic yet: the mess is entirely human.'
+    },
+    '3': {
+      on: [['HL',0],['HeD',0],['LHe',1],['DHe',1]],
+      cap: '<b>Deep in the wood.</b> Both men have been dosed and both now want Helena — who is certain it\u2019s a coordinated joke. Hermia still loves Lysander. Helena still loves Demetrius. Nobody believes anybody, and the two women\u2019s friendship is in pieces.'
+    },
+    '5': {
+      on: [['HL',0],['LH',0],['HeD',0],['DHe',1]],
+      cap: '<b>Morning, and three weddings.</b> Two neat couples — except look at the arrow from Demetrius. His spell is the only one nobody removes. He marries Helena still enchanted, and that is entirely on purpose.'
+    }
+  };
+
+  var cap = document.getElementById('cap');
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.acts button'));
+
+  function render(act){
+    Object.keys(edges).forEach(function(k){
+      edges[k].classList.remove('show','spell');
+    });
+    states[act].on.forEach(function(pair){
+      var e = edges[pair[0]];
+      e.classList.add('show');
+      if(pair[1]) e.classList.add('spell');
+      e.setAttribute('marker-end', pair[1] ? 'url(#arg)' : 'url(#ar)');
+    });
+    cap.innerHTML = states[act].cap;
+    btns.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.act === act ? 'true' : 'false'); });
+  }
+
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){ render(b.dataset.act); });
+  });
+  render('1');
+
+  /* ---------- scrolling ----------
+     Everything is a <button data-go="id">, never <a href="#id">.
+     In an in-app webview a hash href can be resolved against the host page,
+     which is what was bouncing the page out to the browser and reloading it.
+     No hrefs means nothing to hijack. */
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var bar = document.querySelector('.topbar');
+
+  function barH(){ return bar ? bar.getBoundingClientRect().height : 0; }
+  function scrollY(){ return window.pageYOffset || document.documentElement.scrollTop || 0; }
+
+  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+
+  function animateTo(y){
+    var start = scrollY(), dist = y - start;
+    if(Math.abs(dist) < 2) return;
+    var dur = Math.min(620, Math.max(260, Math.abs(dist) * 0.42));
+    var t0 = null;
+    function step(ts){
+      if(t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur);
+      window.scrollTo(0, start + dist * easeOutCubic(p));
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function goTo(id){
+    var y = 0;
+    if(id !== 'top'){
+      var el = document.getElementById(id);
+      if(!el) return;
+      y = el.getBoundingClientRect().top + scrollY() - barH() - 12;
+      if(y < 0) y = 0;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      if(y > max) y = max;
+    }
+    if(reduce || !('requestAnimationFrame' in window)){ window.scrollTo(0, y); return; }
+    // Prefer native smooth where it exists; fall back to our own tween.
+    var native = false;
+    try{
+      window.scrollTo({top:y, left:0, behavior:'smooth'});
+      native = true;
+    }catch(err){ native = false; }
+    if(!native) animateTo(y);
+  }
+
+  /* Catch every click on the page: buttons with data-go scroll,
+     and any leftover in-page hash link is neutralised. */
+  document.addEventListener('click', function(e){
+    var go = e.target.closest ? e.target.closest('[data-go]') : null;
+    if(go){
+      e.preventDefault();
+      goTo(go.getAttribute('data-go'));
+      closeDrawer();
+      return;
+    }
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if(a){
+      e.preventDefault();
+      goTo(a.getAttribute('href').slice(1));
+    }
+  }, false);
+
+  /* ---------- drawer ---------- */
+  var drawer  = document.getElementById('drawer');
+  var scrim   = document.getElementById('scrim');
+  var menuBtn = document.getElementById('menuBtn');
+  var closeBtn= document.getElementById('closeBtn');
+
+  function openDrawer(){
+    drawer.classList.add('open');
+    scrim.classList.add('open');
+    drawer.setAttribute('aria-hidden','false');
+    menuBtn.setAttribute('aria-expanded','true');
+    document.body.classList.add('locked');
+    closeBtn.focus();
+  }
+  function closeDrawer(){
+    if(!drawer.classList.contains('open')) return;
+    drawer.classList.remove('open');
+    scrim.classList.remove('open');
+    drawer.setAttribute('aria-hidden','true');
+    menuBtn.setAttribute('aria-expanded','false');
+    document.body.classList.remove('locked');
+  }
+
+  menuBtn.addEventListener('click', function(){
+    drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+  closeBtn.addEventListener('click', closeDrawer);
+  scrim.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeDrawer(); });
+
+  /* second-level expand / collapse */
+  Array.prototype.forEach.call(document.querySelectorAll('.d-toggle'), function(t){
+    t.addEventListener('click', function(e){
+      e.stopPropagation();
+      var sub = document.getElementById(t.getAttribute('aria-controls'));
+      var open = sub.classList.toggle('open');
+      t.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  /* ---------- which section am I in ---------- */
+  var items = Array.prototype.slice.call(document.querySelectorAll('[data-go]'))
+    .filter(function(b){ return b.getAttribute('data-go') !== 'top' && b.closest('.d-body'); })
+    .map(function(b){ return {btn:b, el:document.getElementById(b.getAttribute('data-go'))}; })
+    .filter(function(o){ return o.el; });
+
+  var ticking = false;
+  function markActive(){
+    ticking = false;
+    var line = scrollY() + barH() + 48, cur = null;
+    items.forEach(function(o){
+      if(o.el.getBoundingClientRect().top + scrollY() <= line) cur = o;
+    });
+    items.forEach(function(o){ o.btn.classList.remove('here'); });
+    if(!cur) return;
+    cur.btn.classList.add('here');
+    // if a sub-item is current, light up and open its parent group too
+    var sub = cur.btn.closest('.d-sub');
+    if(sub){
+      var toggle = document.querySelector('[aria-controls="' + sub.id + '"]');
+      if(toggle){
+        sub.classList.add('open');
+        toggle.setAttribute('aria-expanded','true');
+        var parentRow = toggle.closest('.d-row');
+        var parentGo = parentRow && parentRow.querySelector('.d-go');
+        if(parentGo) parentGo.classList.add('here');
+      }
+    }
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){ ticking = true; requestAnimationFrame(markActive); }
+  }, {passive:true});
+  markActive();
+})();
+</script>
+</body>
+</html>
