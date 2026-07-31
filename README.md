@@ -8,6 +8,7 @@ Static HTML artifacts built with Claude, published via GitHub Pages.
 
 | Directory | Page | Live URL |
 | --- | --- | --- |
+| `midsummer-nights-dream/` | A Midsummer Night's Dream — Pocket Companion | [/midsummer-nights-dream/](https://bryanhirsch.github.io/claude-artifacts/midsummer-nights-dream/) |
 | `spain-argentina-final-primer/` | Spain ✕ Argentina — The World Cup Final, Explained | [/spain-argentina-final-primer/](https://bryanhirsch.github.io/claude-artifacts/spain-argentina-final-primer/) |
 | `spain-france-primer/` | Spain ✕ France — Your Watch-Party Primer | [/spain-france-primer/](https://bryanhirsch.github.io/claude-artifacts/spain-france-primer/) |
 | `england-mexico-primer/` | England ✕ Mexico — Your Watch-Party Primer | [/england-mexico-primer/](https://bryanhirsch.github.io/claude-artifacts/england-mexico-primer/) |
