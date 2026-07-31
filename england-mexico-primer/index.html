@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>England ✕ Mexico — Your Watch-Party Primer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pitch:#0C1712;
+    --pitch-2:#122019;
+    --panel:#16261E;
+    --bone:#ECE6D5;
+    --eng:#E4032E;
+    --mex:#06985B;
+    --bolt:#FFD23F;
+    --chalk:#F5F2EA;
+    --mute:rgba(245,242,234,.62);
+    --line:rgba(245,242,234,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--pitch);
+    color:var(--chalk);
+    font-family:"Archivo",system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 22px}
+
+  /* ---------- type ---------- */
+  .display{font-family:"Anton",Impact,sans-serif;font-weight:400;text-transform:uppercase;line-height:.9;letter-spacing:.01em}
+  .mono{font-family:"Space Mono",ui-monospace,monospace}
+  .eyebrow{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--bolt)}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;border-bottom:1px solid var(--line);overflow:hidden}
+  .clash{display:grid;grid-template-columns:1fr 1fr;min-height:clamp(320px,52vh,460px)}
+  .side{position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:26px clamp(18px,4vw,52px) 30px}
+  .side.eng{background:linear-gradient(160deg,#c30028 0%,var(--eng) 60%,#a80022 100%)}
+  .side.mex{background:linear-gradient(200deg,#05744a 0%,var(--mex) 55%,#046b41 100%);align-items:flex-end;text-align:right}
+  .side::before{content:"";position:absolute;inset:0;opacity:.16;background-image:repeating-linear-gradient(90deg,#fff 0 2px,transparent 2px 46px);pointer-events:none}
+  .flagline{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;opacity:.9;margin-bottom:10px}
+  .nation{font-family:"Anton",Impact,sans-serif;text-transform:uppercase;color:#fff;font-size:clamp(2.9rem,11vw,6rem);line-height:.82;text-shadow:0 3px 0 rgba(0,0,0,.18)}
+  .rank{font-family:"Space Mono",monospace;font-size:.74rem;margin-top:12px;opacity:.92}
+  /* center seam / bolt */
+  .seam{position:absolute;top:0;bottom:0;left:50%;width:0;display:flex;align-items:center;justify-content:center;z-index:3;transform:translateX(-50%)}
+  .vs{width:clamp(64px,15vw,104px);height:clamp(64px,15vw,104px);border-radius:50%;background:var(--pitch);border:3px solid var(--bolt);
+     display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--pitch),0 14px 40px rgba(0,0,0,.5)}
+  .vs span{font-family:"Anton",sans-serif;font-size:clamp(1.4rem,5vw,2.2rem);color:var(--bolt);letter-spacing:.02em}
+  .bolt{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);width:34px;z-index:2;opacity:.9;filter:drop-shadow(0 0 10px rgba(255,210,63,.45))}
+  .bolt path{fill:var(--bolt)}
+
+  .fixture-bar{background:var(--pitch);border-top:1px solid var(--line)}
+  .fixture-bar .wrap{display:flex;flex-wrap:wrap;gap:8px 26px;padding-top:16px;padding-bottom:16px;align-items:center}
+  .fx{display:flex;flex-direction:column;gap:2px}
+  .fx b{font-family:"Space Mono",monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);font-weight:400}
+  .fx span{font-family:"Space Mono",monospace;font-weight:700;font-size:.95rem}
+  .fx .hot{color:var(--bolt)}
+  .fx.storm span{color:var(--eng)}
+
+  /* ---------- generic section ---------- */
+  section{padding:clamp(46px,7vw,78px) 0;border-bottom:1px solid var(--line)}
+  .kicker{margin-bottom:8px}
+  h2.display{font-size:clamp(2rem,6.4vw,3.4rem);margin-bottom:6px}
+  .lede{color:var(--mute);max-width:60ch;margin-bottom:30px;font-size:1.02rem}
+
+  /* basics cards */
+  .basics{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+  .basic{background:var(--pitch-2);border:1px solid var(--line);border-radius:14px;padding:20px 20px 22px;position:relative}
+  .basic .n{font-family:"Anton",sans-serif;color:var(--bolt);font-size:1.1rem;letter-spacing:.04em;display:block;margin-bottom:8px}
+  .basic h3{font-size:1.02rem;margin-bottom:6px}
+  .basic p{color:var(--mute);font-size:.93rem}
+
+  /* teamsheet */
+  .sheet{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .col{background:var(--pitch-2);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .col-head{padding:16px 20px;display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .col.eng .col-head{background:linear-gradient(120deg,rgba(228,3,46,.22),transparent);border-bottom:2px solid var(--eng)}
+  .col.mex .col-head{background:linear-gradient(120deg,rgba(6,152,91,.22),transparent);border-bottom:2px solid var(--mex)}
+  .col-head .t{font-family:"Anton",sans-serif;font-size:1.5rem;letter-spacing:.02em}
+  .col-head .s{font-family:"Space Mono",monospace;font-size:.66rem;color:var(--mute);letter-spacing:.14em;text-transform:uppercase;text-align:right}
+  .player{padding:14px 20px;border-top:1px solid var(--line);display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+  .player:first-of-type{border-top:none}
+  .num{font-family:"Anton",sans-serif;font-size:1.35rem;line-height:1;color:var(--chalk);opacity:.55;padding-top:2px}
+  .col.eng .num{color:var(--eng);opacity:.85}
+  .col.mex .num{color:var(--mex);opacity:.9}
+  .who .name{font-weight:700;font-size:1.02rem;line-height:1.15}
+  .who .role{font-family:"Space Mono",monospace;font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bolt);display:block;margin:3px 0 5px}
+  .who .desc{color:var(--mute);font-size:.9rem}
+  .who .desc em{color:var(--chalk);font-style:normal;font-weight:600}
+
+  /* drama */
+  .drama{display:grid;gap:14px}
+  .beat{background:var(--pitch-2);border:1px solid var(--line);border-left:4px solid var(--bolt);border-radius:0 14px 14px 0;padding:20px 22px}
+  .beat h3{font-size:1.14rem;margin-bottom:7px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .beat h3 .tag{font-family:"Space Mono",monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pitch);background:var(--bolt);padding:3px 8px;border-radius:20px;white-space:nowrap}
+  .beat.red{border-left-color:var(--eng)} .beat.red h3 .tag{background:var(--eng);color:#fff}
+  .beat.green{border-left-color:var(--mex)} .beat.green h3 .tag{background:var(--mex);color:#fff}
+  .beat p{color:var(--mute);font-size:.96rem}
+  .beat p em{color:var(--chalk);font-style:normal;font-weight:600}
+
+  /* videos */
+  .videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+  a.vid{display:flex;flex-direction:column;gap:0;text-decoration:none;color:inherit;background:var(--pitch-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .18s ease,border-color .18s ease}
+  a.vid:hover,a.vid:focus-visible{transform:translateY(-3px);border-color:var(--bolt);outline:none}
+  .thumb{aspect-ratio:16/9;background:var(--panel);position:relative;display:flex;align-items:center;justify-content:center}
+  .thumb.eng{background:linear-gradient(135deg,#8f0020,#e4032e)}
+  .thumb.mex{background:linear-gradient(135deg,#05623d,#06985b)}
+  .thumb.gold{background:linear-gradient(135deg,#7a5a00,#caa21f)}
+  .thumb.mix{background:linear-gradient(120deg,#8f0020 0%,#8f0020 48%,#05623d 52%,#05623d 100%)}
+  .play{width:52px;height:52px;border-radius:50%;background:rgba(12,23,18,.72);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.85)}
+  .play::after{content:"";border-left:16px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
+  .vid .meta{padding:15px 17px 17px}
+  .vid .yt{font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--bolt);display:block;margin-bottom:7px}
+  .vid .vt{font-weight:700;font-size:1rem;line-height:1.2;margin-bottom:6px}
+  .vid .vd{color:var(--mute);font-size:.85rem}
+
+  /* party lines */
+  .lines{display:grid;gap:12px;counter-reset:l}
+  .line{background:var(--pitch-2);border:1px solid var(--line);border-radius:12px;padding:16px 20px 16px 58px;position:relative;color:var(--chalk)}
+  .line::before{counter-increment:l;content:counter(l,decimal-leading-zero);position:absolute;left:18px;top:15px;font-family:"Space Mono",monospace;font-weight:700;color:var(--bolt);font-size:.9rem}
+  .line q{font-style:normal;font-weight:600}
+  .line q::before,.line q::after{content:none}
+  .line small{display:block;color:var(--mute);font-size:.82rem;margin-top:5px;font-weight:400}
+
+  footer{padding:40px 0 60px;text-align:center}
+  footer .big{font-family:"Anton",sans-serif;font-size:clamp(1.5rem,5vw,2.2rem);color:var(--bolt);letter-spacing:.02em;margin-bottom:10px}
+  footer p{color:var(--mute);font-size:.86rem;max-width:52ch;margin:0 auto 6px}
+  footer .stamp{font-family:"Space Mono",monospace;font-size:.68rem;letter-spacing:.1em;color:rgba(245,242,234,.4);margin-top:16px}
+
+  /* reveal */
+  .rev{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .rev.in{opacity:1;transform:none}
+
+  @media (max-width:640px){
+    body{font-size:16px}
+    .sheet{grid-template-columns:1fr}
+    .fixture-bar .wrap{gap:12px 22px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .rev{opacity:1;transform:none;transition:none}
+    a.vid{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="clash">
+    <div class="side eng">
+      <div class="flagline">🏴 Three Lions · Rank #4</div>
+      <div class="nation">Eng&shy;land</div>
+      <div class="rank">P4 · W3 D1 · 15 goals</div>
+    </div>
+    <div class="side mex">
+      <div class="flagline">Host nation · El Tri 🇲🇽</div>
+      <div class="nation">Mex&shy;ico</div>
+      <div class="rank">P4 · W4 · 0 conceded</div>
+    </div>
+    <svg class="bolt" viewBox="0 0 40 400" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M22 0 L6 210 L18 210 L14 400 L34 170 L21 170 Z"/>
+    </svg>
+    <div class="seam"><div class="vs"><span>VS</span></div></div>
+  </div>
+  <div class="fixture-bar">
+    <div class="wrap">
+      <div class="fx"><b>Stage</b><span>Round of 16</span></div>
+      <div class="fx"><b>Kick-off (UK)</b><span class="hot">01:00 · Mon</span></div>
+      <div class="fx"><b>Venue</b><span>Estadio Azteca</span></div>
+      <div class="fx"><b>Altitude</b><span>7,220 ft</span></div>
+      <div class="fx storm"><b>Forecast</b><span>⚡ storm risk</span></div>
+      <div class="fx"><b>Watch</b><span>BBC One</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== BASICS ===================== -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow kicker rev">Start here</div>
+    <h2 class="display rev">The 60-second brief</h2>
+    <p class="lede rev">You know nothing about the team and that's fine. Here's just enough to follow along and not nod at the wrong moments.</p>
+    <div class="basics">
+      <div class="basic rev"><span class="n">01</span><h3>It's win-or-go-home</h3><p>The group stage is over. From here it's straight knockout — win and you're in the quarter-finals, lose and you fly home. Extra time and penalties are on the table.</p></div>
+      <div class="basic rev"><span class="n">02</span><h3>England are favourites…</h3><p>They topped their group and are among the tournament favourites. But they've looked shaky, needing two late Harry Kane goals to scrape past DR Congo last round.</p></div>
+      <div class="basic rev"><span class="n">03</span><h3>…but this is a trap game</h3><p>It's played in Mexico City, in <em>Mexico's</em> own stadium, at altitude, in front of 80,000 roaring home fans. Mexico haven't conceded a single goal all tournament.</p></div>
+      <div class="basic rev"><span class="n">04</span><h3>England last won in 1966</h3><p>England have exactly one World Cup, 60 years ago. Every tournament since has been a national exercise in heartbreak. That's where the tension comes from.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TEAMSHEET ===================== -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow kicker rev">Know these names</div>
+    <h2 class="display rev">The team sheets</h2>
+    <p class="lede rev">Learn six a side and you'll follow the whole match. The names in <span style="color:var(--bolt)">gold</span> are the difference-makers.</p>
+    <div class="sheet">
+
+      <!-- ENGLAND -->
+      <div class="col eng rev">
+        <div class="col-head"><span class="t">England</span><span class="s">Mgr · Thomas Tuchel</span></div>
+        <div class="player"><div class="num">9</div><div class="who"><div class="name" style="color:var(--bolt)">Harry Kane</div><span class="role">Captain · Striker</span><p class="desc">The talisman and all-time top scorer. Just <em>overtook Gary Lineker</em> as England's record World Cup goalscorer. If he fires, England go far.</p></div></div>
+        <div class="player"><div class="num">10</div><div class="who"><div class="name" style="color:var(--bolt)">Jude Bellingham</div><span class="role">Attacking mid</span><p class="desc">The 22-year-old superstar. Real Madrid's man, a big-game player who <em>arrives late in the box</em>. Form's been patchy but he's box-office.</p></div></div>
+        <div class="player"><div class="num">4</div><div class="who"><div class="name">Declan Rice</div><span class="role">Midfield engine</span><p class="desc">Does the unglamorous work — shields the defence, wins the ball back, sets everything up. England only click when he controls the middle.</p></div></div>
+        <div class="player"><div class="num">7</div><div class="who"><div class="name">Bukayo Saka</div><span class="role">Right wing</span><p class="desc">Quick and tricky — England's most reliable route to a chance. Watch him take defenders on down the right.</p></div></div>
+        <div class="player"><div class="num">11</div><div class="who"><div class="name">Marcus Rashford</div><span class="role">Left wing</span><p class="desc">Reborn on loan at Barcelona this season. Pace to burn — dangerous in behind when England break at speed.</p></div></div>
+        <div class="player"><div class="num">1</div><div class="who"><div class="name">Jordan Pickford</div><span class="role">Goalkeeper</span><p class="desc">The excitable keeper and penalty specialist. If it goes to a shoot-out, he's England's not-so-secret weapon.</p></div></div>
+      </div>
+
+      <!-- MEXICO -->
+      <div class="col mex rev">
+        <div class="col-head"><span class="t">Mexico</span><span class="s">Mgr · Javier Aguirre</span></div>
+        <div class="player"><div class="num">9</div><div class="who"><div class="name" style="color:var(--bolt)">Raúl Jiménez</div><span class="role">Striker</span><p class="desc">The emotional heart of the team. <em>Nearly died from a fractured skull in 2020</em> — still wears the headband. Has already scored at this World Cup.</p></div></div>
+        <div class="player"><div class="num">11</div><div class="who"><div class="name" style="color:var(--bolt)">Santiago Giménez</div><span class="role">Striker</span><p class="desc">The young AC Milan number nine — Mexico's most clinical finisher in years. Pairs with Jiménez to lead the line.</p></div></div>
+        <div class="player"><div class="num">4</div><div class="who"><div class="name">Edson Álvarez</div><span class="role">Captain · Def. mid</span><p class="desc">The captain and midfield destroyer. His job is to break up England's rhythm before it can start.</p></div></div>
+        <div class="player"><div class="num">16</div><div class="who"><div class="name" style="color:var(--bolt)">Julián Quiñones</div><span class="role">Forward</span><p class="desc">The breakout star of Mexico's run, with three goals already. Colombia-born, chose Mexico. In the form of his life.</p></div></div>
+        <div class="player"><div class="num">19</div><div class="who"><div class="name">Gilberto Mora</div><span class="role">Wonderkid</span><p class="desc">Just <em>17 years old</em> and lighting up the tournament — reportedly scouted by Real Madrid. The one to say "remember the name" about.</p></div></div>
+        <div class="player"><div class="num">13</div><div class="who"><div class="name">Guillermo "Memo" Ochoa</div><span class="role">Goalkeeper · Legend</span><p class="desc">40 years old, at a record-equalling <em>sixth World Cup</em> (like Messi &amp; Ronaldo). A national icon — may start or come off the bench.</p></div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DRAMA ===================== -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow kicker rev">The storylines</div>
+    <h2 class="display rev">The drama you need</h2>
+    <p class="lede rev">This is where you win the watch party. Drop any one of these and you'll sound like you've followed it all summer.</p>
+    <div class="drama">
+      <div class="beat red rev"><h3>A German is in charge of England <span class="tag">England</span></h3><p>England are managed by <em>Thomas Tuchel</em> — a German. Given the two nations' footballing history, hiring a German to end 60 years of hurt was, let's say, a talking point. He's ruthless, won a Champions League with Chelsea, and now carries the weight of a nation.</p></div>
+      <div class="beat red rev"><h3>The stars he left at home <span class="tag">England</span></h3><p>Tuchel's squad was called the most shocking in decades. He axed household names — <em>Phil Foden, Cole Palmer and Harry Maguire</em> all missed out. Maguire said he was "shocked and gutted." Big personalities, big absences.</p></div>
+      <div class="beat green rev"><h3>The ghost of the Azteca <span class="tag">History</span></h3><p>This is the exact stadium where, in 1986, Diego Maradona knocked England out with the infamous <em>"Hand of God"</em> — a goal he punched in with his fist. England haven't played here in 40 years. Painful history hangs over the place. (Video below — essential viewing.)</p></div>
+      <div class="beat green rev"><h3>Mexico's 40-year curse <span class="tag">Mexico</span></h3><p>Mexico reach the last 16 almost every World Cup, then lose — no quarter-final since 1986. They call the missing step <em>"el quinto partido"</em> (the fifth game). On home soil, this is their best-ever shot to finally break it.</p></div>
+      <div class="beat rev"><h3>The 80,000-strong 12th man <span class="tag">Atmosphere</span></h3><p>Fans gathered outside England's hotel through the night, booing and chanting "Mexico" to wreck the players' sleep. The Azteca at altitude is one of football's great fortresses — Mexico have never lost a World Cup match here.</p></div>
+      <div class="beat rev"><h3>The storm that could stop the game <span class="tag">⚡ Weather</span></h3><p>Forecasters put the risk of lightning at kick-off around 90%. FIFA rules force a stoppage if lightning strikes within six miles — so genuinely, the match could be paused or delayed. Keep an eye on the sky.</p></div>
+      <div class="beat red rev"><h3>Kane vs the record books <span class="tag">England</span></h3><p>Harry Kane arrives red-hot after a monster season at Bayern Munich. He's already England's all-time leading scorer and just became their record World Cup marksman too. One more big night writes more history.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VIDEOS ===================== -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow kicker rev">Pre-match watch-list</div>
+    <h2 class="display rev">Four videos, ten minutes</h2>
+    <p class="lede rev">Watch these before you go and the whole match will make sense. Start with the Maradona clip — it's the reason this fixture carries weight.</p>
+    <div class="videos">
+      <a class="vid rev" href="https://www.youtube.com/watch?v=FRAbNlPS2MI" target="_blank" rel="noopener">
+        <div class="thumb mix"><div class="play"></div></div>
+        <div class="meta"><span class="yt">▶ YouTube · must-watch</span><div class="vt">The "Hand of God", 1986</div><div class="vd">Maradona's eight infamous minutes at this very stadium — the cheat goal, then the greatest goal ever scored. The ghost that haunts England.</div></div>
+      </a>
+      <a class="vid rev" href="https://www.youtube.com/watch?v=T6MYUQgpCv8" target="_blank" rel="noopener">
+        <div class="thumb eng"><div class="play"></div></div>
+        <div class="meta"><span class="yt">▶ YouTube · latest</span><div class="vt">England 2–1 DR Congo</div><div class="vd">Last round. England were losing and heading out until Kane's late brace rescued them. Shows both their quality and their nerves.</div></div>
+      </a>
+      <a class="vid rev" href="https://www.youtube.com/watch?v=wAkBKV1u8Zs" target="_blank" rel="noopener">
+        <div class="thumb mex"><div class="play"></div></div>
+        <div class="meta"><span class="yt">▶ YouTube · latest</span><div class="vt">Mexico 2–0 Ecuador</div><div class="vd">Mexico's last-round win — Jiménez and Quiñones on target, and their first knockout win since 1986. Watch that Azteca crowd erupt.</div></div>
+      </a>
+      <a class="vid rev" href="https://www.youtube.com/watch?v=x24Ir5Ua4RQ" target="_blank" rel="noopener">
+        <div class="thumb gold"><div class="play"></div></div>
+        <div class="meta"><span class="yt">▶ YouTube · extended</span><div class="vt">England vs DR Congo — extended</div><div class="vd">Longer highlights if you want a fuller look at how Tuchel's England actually play going forward.</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PARTY LINES ===================== -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow kicker rev">Cheat codes</div>
+    <h2 class="display rev">Sound like you know football</h2>
+    <p class="lede rev">Deploy sparingly and with a knowing sigh. Timing is everything.</p>
+    <div class="lines">
+      <div class="line rev"><q>"The Azteca at altitude — that's the toughest away trip in world football."</q><small>True, and instantly credible. Best said early, watching England look breathless.</small></div>
+      <div class="line rev"><q>"If Rice doesn't win the midfield, England are in trouble."</q><small>Declan Rice is the unglamorous key. Nodding about him signals real knowledge.</small></div>
+      <div class="line rev"><q>"Watch the kid — Mora's only seventeen."</q><small>Whenever Mexico's Gilberto Mora gets the ball. "Remember the name" optional.</small></div>
+      <div class="line rev"><q>"Get it to full time and you fancy England on penalties — that's Pickford's specialty."</q><small>For the tense final minutes. England's keeper is a shoot-out menace.</small></div>
+      <div class="line rev"><q>"Mexico always get to this stage and freeze. El quinto partido."</q><small>Drop the Spanish and you've basically won the party.</small></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="big">01:00 UK · BBC One · ⚡</div>
+    <p>Kick-off is 1am UK time overnight into Monday — so it's a late one. If storms roll in over Mexico City, the start could shift.</p>
+    <p>Enjoy the party. Say "el quinto partido" at least once.</p>
+    <div class="stamp">Primer current as of 5 Jul 2026 · a live tournament, so details can move fast</div>
+  </div>
+</footer>
+
+<script>
+  // Gentle scroll reveal — content is visible by default; JS only layers in motion.
+  (function(){
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var els = document.querySelectorAll('.rev');
+    if (!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in');}); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(e){ io.observe(e); });
+  })();
+</script>
+</body>
+</html>
