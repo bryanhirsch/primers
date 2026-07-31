@@ -2,7 +2,7 @@
 
 Static HTML artifacts built with Claude, published via GitHub Pages.
 
-**Live site:** https://bryanhirsch.github.io/claude-artifacts/
+**Live site:** https://bryanhirsch.github.io/primers/
 
 ## Artifacts
 
